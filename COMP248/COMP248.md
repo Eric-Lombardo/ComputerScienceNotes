@@ -1,4 +1,4 @@
-# COMP248 WEEK 1 #
+# COMP248 Lesson 1 #
 ## Java ##
 - Java was originally designed for programming consumer devices but it's success came from writing internet applets.
 - Java is both **safe** and **portable**
@@ -55,7 +55,7 @@ public class ClassName
 ## System.out.println ##
 - For them example of `System.out.println("blabla")`, the string "blabla" will be printed first **and then** the cursor is placed to the next line
 
-# COMP248 WEEK 2 #
+# COMP248 Lesson 2 #
 ## Comments ##
 - Comments can take 3 forms:
 1. `//` this commentruns to the end of the line
@@ -225,4 +225,159 @@ System.out.printf("Price:%.1f", price)
 output:
 20.0  
 ** in this example we are specifying only 1 decimal point but the variable has 2 therefore it would round it instead of just chopping it off **
+```
+
+# COMP248 Lesson 3 #
+## Flowchart ##
+- squares: assignment
+- diamond = decision
+- parallelagram = input/output
+- circles = start/end
+- arrows (any direction) = flow control
+```
+task:
+- Prompt for 2 nums
+- Read 2 nums
+- Add 2 nums
+- display Sum
+             ______________      _______________     _______________      __________
+(start) --> /ask n1 and n2/ --> /read n1 and n2/ --> |sum = n1 + n2| --> /print sum/ --> (end)          
+```
+
+## Comparing Floats ##
+- Be careful when comparing 2 floating point values (float or double) for equality.
+- Do not use `==` *(usually doesn't make sense to use == with flaoting point numbers)*
+- floats are approximate
+- you want to see if they are "close-enough"
+```
+if (Math.abs(f1 - f2) < 0.00001)
+{
+  System.out.print("Essentially equal.");
+}
+```
+
+## Comapring Strings ##
+- To determine if 2 strigns have the same content
+```
+firstString.equals(secondString);     // returns a boolean
+```
+- To check if 1 string comes before another based on the Unicode character set
+```
+firstString.comapreTo(secondString);    // returns an int
+
+--> negative if firstString is BEFORE secondString (Lexicographic aka Dictionary method)
+--> positive if firstString is AFTER secondString
+--> Zero if the 2 strings have the same content
+```
+- To determine if 2 strigns have the same cotnent **IGNORING THE CASE**
+```
+s1.equalsIgnoreCase(s2);
+```
+- Examples:
+```
+"aBcd" < "abcd" //syntax error: comparing strings
+'aBcd' < 'abcd' //syntax error: not a char
+"a" < "b" //syntax error: comapring strings
+'a' < 'b' //true
+"aBcd".equals("abcd") //false
+```
+
+## Lexicographic aka Dictionary method ##
+- All uppercase letters come before the lowercase letters. `'Z'` comes before `'a'`
+- The space character comes before all printable characters
+- Numbers come before letters
+- First the letters are comapred, but if they all match and 1 word is longer, than that longer words comes after
+
+## Complete Evaluation ##
+- Using `&&` (and) or `||` (or) in Java uses short-circuit
+- But using the single `&` and `|` (bitwise) will force Java to evaluate **both** expressions
+
+## Dangling else ##
+- An else is matched top the **last unmatched** `if`. No matter what the indentation implies
+```
+if (condition1)
+  if (condition2)
+    statement1;
+else
+  statement2;
+
+THIS IS ACTUALLY
+
+if (condition1)
+  if (condition2)
+    statement1;
+  else
+    statement2;
+```
+
+## Switch Statement ##
+- Aswitch can have an **optional** default case
+    - The default case canb be placed anywhere but is usally at the end.
+- The values in the case can be `int char String` but floating-points are **not permitted**
+- A break exits out of the switch statement. If it is missing it will continue the next statement disregarding the case until it finds the **next break**
+```
+int category = 10;
+
+switch (category)
+{
+  case 10:
+    sysout.out.print("excellent");
+  case 9:
+    sysout.out.print("nice");
+  case 8:
+    sysout.out.print("good");
+    break;
+}
+
+// This will output "excellentnicegood" because the break is only found in case 8
+```
+
+## Logger ##
+- Instead of using `System.out.print()` to debug `Logger.getGlobal()` is a way to sysout data but also allows to quickly supppress the logs once you no longer need them
+
+## hasNextInt() ##
+- This is to ensure the next input is a number. This will validate inpout to avoid run-time errors that might happen by bad user input
+
+# COMP248 Lesson 4 #
+## For-Loops ##
+- inside the for-loops we can have multiple expressions
+```
+// Regular
+for (int i = 0; i <= 10; i++>)
+{
+  doSomething();
+}
+
+// Multiple
+for (int i = 0, j = 10; i <= 10; i++, j *= 2>)
+{
+  doSomething();
+}
+--> Multiple expression for initialization (i=0, j=10). Statements are separated by a comma
+--> Multiple expreesion for the increment part (i++ and j*=2)
+```
+
+## Do-loop synatx ##
+```
+do
+{
+  statements;
+}
+while (conditon);
+```
+
+## Which loop to use ##
+- Any loop can be written with another loop
+- Use a `while` or a `do` loop when you don't know in advance how many times you want to execute the loop body.
+
+## Break/Continue in a loop ##
+- **Break**: Will exit the inner-most loop without evaluating the condition
+- **Continue**: Will interrupt the current iteration of the inner-most loop. Will force a new evalaution of the condition for a possible new iteration.
+
+## Exit ##
+- **Exit**: While a **break** ends a loop the **exit** will end the entire program. It is invoked with:
+```
+System.exit(0);
+// Takes 1 integer argument
+// By tradition a ZERO is used to indicate a normal ending of the program
 ```
