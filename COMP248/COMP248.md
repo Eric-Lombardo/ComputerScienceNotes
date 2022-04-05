@@ -381,3 +381,586 @@ System.exit(0);
 // Takes 1 integer argument
 // By tradition a ZERO is used to indicate a normal ending of the program
 ```
+
+# COMP248 Lesson 5 #
+## Declaring and Creating Arrays ##
+
+## Declaring the reference ##
+```
+type_of_elements[] name_of_array;
+
+int[] scores;
+char[] vowels;
+double[] marks;
+String[] sentence;
+```
+
+## Creating the elements ##
+```
+name_of_array = new type_of_elements[size];
+
+scores = new int[10]; // array size is 10
+```
+## Declaration and Creation ##
+```
+int[] scores = new int[10];
+```
+
+## Array initialization ##
+- Every element is initialized to the zero of their type
+```
+int, double -> 0, 0.0
+boolean -> false
+references -> null
+```
+
+## Initializer Lists ##
+- Declare and initialize an array in one step, while also chooseing ther values for each index
+```
+int[] units = {147, 323, 89, 933};
+char[] grades = {'a', 'b', 'c'};
+```
+- no size value is specified (size = num of elements listed)
+- the *new* operator is not used
+
+## Access to an element ##
+- ` nameOfArray[indexOfElement] `
+
+## An algorithm for Selection Sort ##
+- Select a value and put it in it's final place into the list. Repeat for all other values
+- The algorithm:
+    - Find smallest value in the array
+    - switch it with the value in the 1st position
+    - find the next smallest value
+    - switch it with the value in the 2nd position
+    - repeat until all values are in the proper places
+
+## Multi-dimensional Array ##
+- A 2D array is really a 1D array of references to 1D arrays.
+**Not an array of arrays. It's storing the references of 1-D arrays**
+```
+variable
+holding
+the array
+----      -------------
+|  | ---> |100|200|300|      ---> Array holding the references of other arrays
+----      -------------
+            /   |   \
+        ----   ----   ----
+        |__|   |__|   |__|
+        |__|   |__|   |__|
+        |__|   |__|   |__|
+```
+- In 2D arrays the 1st is amount of rows, and the 2nd is amount of columns
+```
+int[4][2] can be written as:
+
+{
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0},
+}
+```
+
+## Multidimensional array declaration ##
+```
+double[][] section = new double[5][80];
+doubnle[][][] course = new double[3][5][80];
+```
+- To access a double in section: `section[0][1]`
+- If section was a 2-D array of ints
+```
+Expression    | type    | description
+-------------------------------
+section       | int[][] | 2-D array
+section[4]    | int[]   | 1-D array
+section[4][2] | int     | integer
+```
+
+## Ragged Arrays ##
+- a multidimensional array with different lengths
+```
+int[][] a = new int[3][];
+a[0] = new int[5];
+a[1] = new int[10];
+a[2] = new int[4];
+```
+
+## Array references ##
+- When you copy an array variable into another, both variables refer to the same array.
+- You are essentially copying the reference only
+```
+int[] scores = {1,2,3};
+int[] values = scores;
+scores[0] = 10;
+System.out.print(values[0]);  // 10
+```
+
+## Partially filled array ##
+- You might not know how many elements you need to store, so you can come up with a maximum amount you think you will need and then use a variable to keep track of the actual count.
+```
+int currentSize = 0;
+
+while(scanner.hasNextInt())
+{
+    if (currentSize < values.length)
+    {
+        values[currentSize] = scanner.nextInt();
+        currentSize++;
+    }
+}
+```
+
+## The enhanced for loop ##
+```
+int[] values = new int[10];
+int total = 0;
+
+for (int element : values)
+{
+    total += element; 
+}
+
+** element is just a variable name. It can be "item" as well
+```
+
+## Print array to console ##
+```
+int[] values = {1,2,3};
+System.out.print(Arrays.toString(values)) // [1,2,3]
+```
+
+# COMP248 Lesson 6 #
+## Classes ##
+- **Class**: a blueprint/pattern to create object's state and behaviour
+- **object**: a specific variable of a class (an instance)
+```
+Class       | objects
+---------------------
+Date        | today, birthday
+Book        | textbook, novel
+PlayingCard | ace, jack, queen
+```
+- **State**: Data declaration ex: `private String month;`
+- **Behaviour**: Method declaration
+```
+public boolean isWeekend()
+{
+    ...
+}
+```
+```
+Class       | State                     | Behaviour
+-----------------------------------------------------------
+Date        | day, month, year          | is it the weekend?
+Book        | title, author, due back   | when is it due back?
+BankAccount | name, balance             | deposit, withdraw
+```
+
+## Instance variables ## 
+- variables and constants (final) declared in the class
+- Also called attributes
+
+## Defining a method ##
+```
+visibility static returnType methodName(listOfParameters)
+{
+    statementsOfTheMethod
+}
+
+- visibility can be private/public
+- static is optional
+```
+
+## Accessing members ##
+- within the class:
+    - `nameOfData`
+    - `nameOfMethod`
+- from outside the class:
+    - **non-static**: `nameOfObject.nameOfData`
+        - Notice it's `nameOfObject`
+    - **static**: `nameOfClass.nameOfData`
+        - class as in `Math.abs()` or `Math.PI`
+
+## Methods with void ##
+- A method with a return type of void can have areturn statement but not with anythign after but it's most commonly written without it. It's useful when you want to exit out of the method early
+```
+public void flip()
+{
+    System.out.print("flip");
+    return;
+}
+```
+
+## toString() (a special method) ##
+- When an entire object is printed, the toString method is automatically called
+```
+public class Banking()
+{
+    public static void main(String[] args)
+    {
+        Account acc1 = new Account("Ted", 123, 100.0);
+        acc1.deposit(25.55);
+        System.out.println(acc1);
+    }
+}
+```
+- **If you have not defined a toString method the output will be:** `Account@182f0db`. This shows you the class and the memory location.
+- When defining a class, define your own version of the toString method
+
+## Defining your own toString() ##
+```
+public String toString()
+{
+    return "some string";
+}
+```
+- return type must be `String`
+- and then to use it `System.out.println(acc1)`. This will call the toString() and return back a string
+- The toString method is called automatically whenver you concatenate a string with an object
+```
+Rectangle box = new Rectangle(5,5,20,10)
+"box=" + box; // This will automatically call Rectangle's toString() and the final result could be:
+
+box=[x=5,y=5,w=20,h=10]
+```
+
+## equals() (another special method) ##
+- if not redefined in your class it has the same sematics as `==`
+- to define our own version
+```
+public boolean equals(Account other)
+{
+    return this.accountNumber == other.accountNumber;
+}
+```
+- compare it to another object of the same class
+- it must return a boolean
+
+## Constructor (another special method) ##
+- Used to initialize the data of an object
+- must have the same name as the class name
+- has no returen type (not even void)
+- must be public
+- Can have parameters
+- **If you don't define a constructor in your class, a default constructor will intializes all instance varaibles to the 0 of their type**
+
+## Some notions of OOP ##
+- Information hiding aka **Abstraction**
+    - ex: As a user of a calculator I don't know how the square root works behind the scenes. I just know what input i need to give the calculator to get the result.
+-  **Encapsulation**
+    - the data and methods of a class are combined into a single unit (ie a class object) which hides the implementation details
+    - knowing the details is unnecessary because interaction with the object occurs via a well-defined simple interface
+    - In Java hiding details is done by making them private. Usually the variables are private but the methods are public
+- **Interface**
+    - An object interacts with the rest of the program via an interface
+    - interface is a set of methods that allow access to the object
+    - the interface hides how a method is implemented
+
+## Encapsulation diagram ##
+```
+                -----------------------------------------------------
+user <------>   | public methods (interface) <----> private methods |
+                |                    \               /              |
+                |                     \             /               |
+                |                      data variables               |
+                -----------------------------------------------------
+```
+
+## Visibility modifiers for Comp248 ##
+- `public`
+- `private`
+- `protected` (comp249)
+- `default` or `package` (comp249)
+```
+Data
+-----------
+- private
+- constants are ok to be public because they can't be modified anyways
+
+Methods
+-----------
+- Public (service methods)
+- Private (support method)
+```
+
+## Setters and Getters (mutators and accessors) ##
+- setter
+```
+public void setHour(int hour)
+{
+    this.hour = hour;
+}
+```
+- getter
+```
+public int getHour(int hour)
+{
+    return this.hour;
+}
+```
+- **You can use the setter methods inside your constructor**
+
+## More on Mutators(setter) ##
+- When a mutator/setter is given a value that would make the object in an invalid state you can:
+    - Display an error message and exit the program
+    - return a boolean (false) which is the better way to handle this
+```
+public void setHour(int hour)
+{
+    if (hour > 24 || hour < 0)
+    {
+        System.out.println("Error");
+        System.exit(0);
+    }
+    else 
+    {
+        this.hour = hour;
+    }
+}
+```
+```
+public boolean setHour(int hour)
+{
+    if (hour > 24 || hour < 0)
+        return false;
+
+    this.hour = hour;
+    return true;
+}
+```
+
+## Implementing Instance methods ##
+- A static method carries out some work, but it is not invoked on an object
+```
+double result = cubeVolume(2);
+        - instead of -
+double result = box.cubeVolume(2);
+```
+
+## Testing a Class ##
+- Testing in isolation, outside a complete program, is called **unit testing**
+
+# COMP248 Lesson 7 #
+## Arrays are objects ##
+- An array can be passsed as a parameter to a method. When doing this, the reference of the array is passed. Tehrefore changing an array element inside the method also changes the original array. (the one that was used as a parameter)
+
+## Duplciating/Copying an array ##
+```
+int[] a1 = {10, 20, 30};
+int[] a2 = {1,2,3,4};
+
+a1 memLocation-1000 ---> [10, 20, 30] 
+                    \
+                     \
+                      \
+                       \
+a2 memLocation-2000 --> [1,2,3,4]
+
+when doing a1 = a2 ...
+
+you are assigning the reference of a2 to a1. So now a1 points to memory location 2000. Now both a1 and a2 point to the same array
+```
+- If you want to duplicate an array and have them point to 2 unique locations you can do this:
+```
+public int[] duplicate(int[] original)
+{
+    int[] copy = new int[original.length];
+    for (int i = 0; i < original.length; i++)
+        copy[i] = original[i];
+    
+    return copy
+}
+
+This will create a new array with it's own memory location and fill it with the same values as the original
+```
+- ... However the "grand-father" of all objects has a method you can use that does all this (the clone method)
+```
+theCopy = (int[]) theOriginal.clone();
+
+** Clone returns an array to a generic Object so we need to cast the result back into what we want. In this case an array of integers
+```
+
+## Privacy leaks with Array instance variables ##
+- If an accessor (a getter) returns the cotnents of an array, special care must be taken because you don't want to return the original witht he same memory location since it can be mutated by accident
+```
+public int[] getArray()
+{
+    return this.anArray;
+}
+
+THIS IS BAD!!!
+```
+```
+public int[] getArray()
+{
+    int[] temp = new int[this.anArray.length];
+    for (int i = 0; i < this.anArray.length; i++)
+        temp[i] = this.anArray[i];
+    
+    return temp;
+}
+
+It's always better to return a duplicate to avoid accidental mutation/privacy leaks
+```
+
+# COMP248 Lesson 8 #
+## Instance members ##
+- non-static
+- associates a variable or method with each object
+- invoked through the name of a specific object
+```
+Account myAcct = new Account();
+myAcct.deposit(10);
+```
+
+## Class members ##
+- static
+- associates a variable or method with each class. (Shared by all objects of the class)
+- Invoked through the name of the class
+```
+Math.sqrt(25);
+Math.pow(2,3);
+```
+- Static variables and methods can be called even if no object exists.
+- Static varaibels and methods do not have access to non-static varaibles and methods, because it's very possible that an instance of a class has not been created. (Example the Math class)
+
+## Wrapper Classes ##
+- A "container" to a primitive type. We wrap the primitive type by some class
+- Every primitive type has a coressponding class in the `java.lang` package
+```
+Primitive type |   Wrapper class
+--------------------------------------
+byte                Byte
+short               Short
+int                 Integer
+long                Long
+float               Float
+double              Double
+char                Character
+boolean             Boolean
+void                Void
+```
+- *Why would I want to wrap a primitive type?* 
+    - Wrapper classes contain many useful methods to help manage the associated type.
+    ```
+    ex: To convert an integer stored in a string to an int value
+
+    String str = "2003";
+    int num = Integer.parseInt(str);
+    ```
+
+## Boxing and Unboxing ##
+- **Boxing**
+    - Converting a primitive value to an object of its wrapper class
+    - `Integer myInt = new Integer(21);`
+- **Unboxing**
+    - Converting an object of a wrapper class to the corresponding value of a primitive type.
+    - Use the typeValue() methods
+    ```
+    int i = myInt.intValue();
+    char c = myChar.CharValue();
+    ```
+- **Since Java 5.0 they introduces automatic boxing and unboxing**
+    - auto-boxing: 
+        - `Integer myInt = 21;` 
+        - No longer need to use the "new" keyword. Very similar to creating a String
+    - auto-unboxing:
+        - `int i = myInt;`
+        - no longer need to call the typeValue() method
+
+## Null reference ##
+- A reference that currently points to no object
+- A null reference points to no object so we can't access it's attributes or methods with the dot notation
+```
+# Good way
+Account myAcct;
+myAcct = new Account();
+myAcct.deposit(100);
+
+# Bad way
+Account myAcct;
+myAcct.deposit(100);
+```
+- null can be used:
+    - To indicate a variable has no real value
+    - in a boolean expression with `==` or `!=`
+    - as a placeholder
+
+## `This` reference ##
+- Allows an object to refer to itself. It's a reference to the current object
+- Inside a method it refers tot he object through which the method is being executed
+
+## Garbage collection ##
+- When an object no longer has any references to it, it can no longer be accessed by the program
+- Java has an auto garbage collector that runs periodically and returns memory back to the pool
+- If a reference is no longer useful, assign it the null (`myRef = null`) so that the garbage collector can pick it up
+```
+myAccount     yourAccount
+---------     -----------       
+| 1000  |     |  1000   |----> -------
+---------     -----------      |\\\\\| ---> This will be garbage collected
+    \           /              -------
+     \         /
+        -----
+        |   |
+        -----
+```
+
+## Pass by Value vs pass by Reference ##
+- **Pass by value**
+    - all primitive types are passed by value
+    - the value is copied to another variable
+    - the original is never modified
+- **Pass by Reference**
+    - Object parameters are always passed by reference
+    - Both become aliases of each other
+    - This mutates the original only if setters are used in the method
+
+## Copy constructor ##
+- For instance variables that are primitive types:
+```
+public Date(Date aDate)
+{
+    month = aDate.month; // String
+    day = aDate.day;     // int
+    year = aDate.year;   // int
+}
+
+** When the instance variable is a primitive it's ok to simply assign it with the eqauls (=)
+```
+- For instance variables that are class types:
+```
+public Person(Person original)
+{
+    name = original.name // String is ok
+    born = new Date(original.born) // check note
+}
+
+** note: reference to a class so use the "new" keyword to make a copy with all the same info
+```
+-  A copy constructor only has **one** parameter (see above). It accepts only one of the same class and uses that argument to create a clean copy to avoid privacy leaks.
+- *why is it ok for strings, which is not a primitive type?*
+    - Strings are an immutable object (can't be mutated)
+    - a return type of String in a method will automatically return a new one for you
+
+## Deep copy vs Shallow copy ##
+- **deep copy**: A copy that has *no* reference in common with the original
+- **shallow copy**: Can cause dangerous privacy leaks in a program since the references can be changed outside the class that owns it 
+- A condition that allows a programmer to circumvent the private modifier and change the private instance variable is called **a privacy leak**
+    - To avoid this we use a **Copy constructor**
+
+## Static ##
+- They are a property of a *class* and not for a single object of a class
+- link instance variables, static variables should always be decalred as **private** to ensure that methods of other classes do not change their values. But if they are constants, they can be both public or private, since constants can be chnages anways
+- In OOP, static mehtods are not very common. Nevertheless the **main** method is always static. When the program starts, there aren't any objects, therefore, the first method of a program must be a static method.
+
+## Object: The superclass ##
+- In Java, every class that is declared without an explicit "extends" clause automatically extends the class **Object**
+- The class "Object" is thew direct or indirect superclass of *every* class in Java
+- The Object class defines several very general methods:
+    - **toString**: Yeilds a string describing the object
+    - **equals**: compares objects with each other
+    - **hashcode**: yeilds a numerical code for storing an object in a set
+
